@@ -8,7 +8,9 @@ export default async function register(req, res) {
   });
 
   try {
-    if (invalidRequest) return res.status(406).send(invalidRequest.message);
+    if (invalidRequest) {
+      return res.status(406).send({ message: invalidRequest.message });
+    }
 
     const findRegisteredUser = await connection.query(
       'SELECT * FROM users WHERE email = $1;',
