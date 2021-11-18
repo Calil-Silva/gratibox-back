@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { connection } from '../database/database.js';
 import { registerSchema } from '../schemas/userSchema.js';
 
@@ -8,6 +9,7 @@ export default async function register(req, res) {
   });
   const passwordErrMsg = '"confirmedPassword" must be [ref:password]';
   const confirmedPasswordError = invalidRequest?.message === passwordErrMsg;
+  const hashedPassword = bcrypt.hashSync(password, 10);
 
   try {
     if (invalidRequest && confirmedPasswordError) {
@@ -29,7 +31,7 @@ export default async function register(req, res) {
 
     await connection.query(
       'INSERT INTO users (name, email, password) VALUES ($1, $2, $3);',
-      [name, email, password]
+      [name, email, hashedPassword]
     );
     return res.status(201).send({ message: 'Você é grato!' });
   } catch (error) {

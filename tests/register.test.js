@@ -26,7 +26,7 @@ describe('POST /register', () => {
       password: mockedUser.password,
       confirmedPassword: mockedUser.confirmedPassword(),
     };
-
+    console.log(userCredentials);
     const result = await agent.post('/register').send(userCredentials);
 
     expect(result.status).toEqual(201);
