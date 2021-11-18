@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { regexPattern } from '../factories/regexPattern.js';
+import { regexPattern } from './regexPattern.js';
 
 export const registerSchema = Joi.object({
   name: Joi.string()
