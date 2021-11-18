@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
-import { connection } from '../database/database';
+import { connection } from '../database/database.js';
 
 export default async function login(req, res) {
   const { email, password } = req.body;
@@ -14,7 +14,7 @@ export default async function login(req, res) {
     const matchPassword = bcrypt.compareSync(password, hashedPassword);
     const userId = findRegisteredUser?.rows[0]?.id;
 
-    if (findRegisteredUser.rowCount !== 0) {
+    if (findRegisteredUser.rowCount === 0) {
       return res.status(404).send({ message: 'Usuário não encontrado' });
     }
 
@@ -30,10 +30,10 @@ export default async function login(req, res) {
     const userCredentials = {
       userId: findRegisteredUser.rows[0].id,
       name: findRegisteredUser.rows[0].name,
-      token: loggedUsers.rows[0].token]
+      token: loggedUsers.rows[0].token,
     };
 
-    res.status(202).send(userCredentials)
+    res.status(202).send(userCredentials);
   } catch (error) {
     res
       .status(500)
