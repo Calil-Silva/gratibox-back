@@ -1,9 +1,12 @@
-import connection from '../database/database.js';
+import { connection } from '../database/database.js';
 import { registerSchema } from '../schemas/userSchema.js';
 
 export default async function register(req, res) {
   const { name, email, password } = req.body;
-  const { error: invalidRequest } = registerSchema.validate(req.body);
+  const { error: invalidRequest } = registerSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  console.log(req.body, invalidRequest?.message);
 
   try {
     if (invalidRequest) return res.status(406).send(invalidRequest.message);
