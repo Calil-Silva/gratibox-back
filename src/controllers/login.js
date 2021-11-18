@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+import { v4 as uuid } from 'uuid';
 import { connection } from '../database/database';
 
 export default async function login(req, res) {
@@ -8,10 +10,30 @@ export default async function login(req, res) {
       'SELECT * FROM users WHERE email = $1;',
       [email]
     );
+    const hashedPassword = findRegisteredUser?.rows[0]?.password;
+    const matchPassword = bcrypt.compareSync(password, hashedPassword);
+    const userId = findRegisteredUser?.rows[0]?.id;
 
     if (findRegisteredUser.rowCount !== 0) {
       return res.status(404).send({ message: 'Usuário não encontrado' });
     }
+
+    if (!matchPassword) {
+      return res.status(401).send({ message: 'Senha incorreta' });
+    }
+
+    const loggedUsers = await connection.query(
+      'INSERT INTO logged_users (user_id, token) VALUES ($1, $2) RETURNING *;',
+      [userId, uuid()]
+    );
+
+    const userCredentials = {
+      userId: findRegisteredUser.rows[0].id,
+      name: findRegisteredUser.rows[0].name,
+      token: loggedUsers.rows[0].token]
+    };
+
+    res.status(202).send(userCredentials)
   } catch (error) {
     res
       .status(500)
