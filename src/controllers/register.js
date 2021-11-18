@@ -7,7 +7,7 @@ export default async function register(req, res) {
     abortEarly: false,
   });
   const passwordErrMsg = '"confirmedPassword" must be [ref:password]';
-  const confirmedPasswordError = invalidRequest.message === passwordErrMsg;
+  const confirmedPasswordError = invalidRequest?.message === passwordErrMsg;
 
   try {
     if (invalidRequest && confirmedPasswordError) {
