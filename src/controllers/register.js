@@ -6,8 +6,14 @@ export default async function register(req, res) {
   const { error: invalidRequest } = registerSchema.validate(req.body, {
     abortEarly: false,
   });
+  const passwordErrMsg = '"confirmedPassword" must be [ref:password]';
+  const confirmedPasswordError = invalidRequest.message === passwordErrMsg;
 
   try {
+    if (invalidRequest && confirmedPasswordError) {
+      return res.status(406).send({ message: 'As senhas não coincidem!' });
+    }
+
     if (invalidRequest) {
       return res.status(406).send({ message: invalidRequest.message });
     }
