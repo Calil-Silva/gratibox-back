@@ -1,4 +1,6 @@
-import { Pool } from 'pg';
+import pg from 'pg';
+
+const { Pool } = pg;
 
 export const connection = new Pool({
   host: process.env.DB_HOST,
