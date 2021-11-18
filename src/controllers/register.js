@@ -6,10 +6,18 @@ export default async function register(req, res) {
   const { error: invalidRequest } = registerSchema.validate(req.body, {
     abortEarly: false,
   });
-  console.log(req.body, invalidRequest?.message);
 
   try {
     if (invalidRequest) return res.status(406).send(invalidRequest.message);
+
+    const findRegisteredUser = await connection.query(
+      'SELECT * FROM users WHERE email = $1;',
+      [email]
+    );
+
+    if (findRegisteredUser.rowCount !== 0) {
+      return res.status(409).send({ message: 'Usuário já cadastrado' });
+    }
 
     await connection.query(
       'INSERT INTO users (name, email, password) VALUES ($1, $2, $3);',
