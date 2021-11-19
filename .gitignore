@@ -1,3 +1,6 @@
-.env
-.env.test
+# dependencies
 /node_modules
+.env.heroku
+.env.test
+.env.dev
+.env
