@@ -10,13 +10,14 @@ export default async function login(req, res) {
       'SELECT * FROM users WHERE email = $1;',
       [email]
     );
-    const hashedPassword = findRegisteredUser?.rows[0]?.password;
-    const matchPassword = bcrypt.compareSync(password, hashedPassword);
-    const userId = findRegisteredUser?.rows[0]?.id;
 
     if (findRegisteredUser.rowCount === 0) {
       return res.status(404).send({ message: 'Usuário não encontrado' });
     }
+
+    const hashedPassword = findRegisteredUser?.rows[0]?.password;
+    const matchPassword = bcrypt.compareSync(password, hashedPassword);
+    const userId = findRegisteredUser?.rows[0]?.id;
 
     if (!matchPassword) {
       return res.status(401).send({ message: 'Senha incorreta' });
