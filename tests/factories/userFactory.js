@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { mockedUser } from '../mocks/mocks';
-import { connection } from '../../src/database/database';
+import connection from '../../src/database/database';
 
 export async function createNewUser() {
   const { name, email, password: notHashed } = mockedUser;

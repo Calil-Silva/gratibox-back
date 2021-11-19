@@ -2,7 +2,7 @@
 import supertest from 'supertest';
 import '../src/setup/setup.js';
 import { app } from '../src/app.js';
-import { connection } from '../src/database/database.js';
+import connection from '../src/database/database.js';
 import { mockedUser } from './mocks/mocks.js';
 
 const agent = supertest(app);

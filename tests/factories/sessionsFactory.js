@@ -1,4 +1,4 @@
-import { connection } from '../../src/database/database';
+import connection from '../../src/database/database';
 import { v4 as uuid } from 'uuid';
 
 export async function createSession() {

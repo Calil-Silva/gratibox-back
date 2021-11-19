@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import supertest from 'supertest';
 import '../src/setup/setup.js';
-import { connection } from '../src/database/database.js';
+import connection from '../src/database/database.js';
 import { app } from '../src/app.js';
 import { v4 as uuid } from 'uuid';
 import { createNewUser } from './factories/userFactory.js';
