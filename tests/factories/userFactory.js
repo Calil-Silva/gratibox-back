@@ -1,15 +1,17 @@
 import { mockedUser } from '../mocks/mocks';
 import { connection } from '../../src/database/database';
+import bcrypt from 'bcrypt';
 
 export async function createNewUser() {
-  const { name, email, password } = mockedUser;
+  const { name, email, password: notHashed } = mockedUser;
+  const hashedPassword = bcrypt.hashSync(notHashed, 10);
 
   const newUser = (
     await connection.query(
       'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *;',
-      [name, email, password]
+      [name, email, hashedPassword]
     )
-  ).rows[0].id;
+  ).rows[0];
 
-  return newUser;
+  return { ...newUser, notHashed };
 }

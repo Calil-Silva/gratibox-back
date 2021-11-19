@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import supertest from 'supertest';
 import '../src/setup/setup.js';
 import { app } from '../src/app.js';
@@ -26,7 +27,7 @@ describe('POST /register', () => {
       password: mockedUser.password,
       confirmedPassword: mockedUser.confirmedPassword(),
     };
-    console.log(userCredentials);
+
     const result = await agent.post('/register').send(userCredentials);
 
     expect(result.status).toEqual(201);
