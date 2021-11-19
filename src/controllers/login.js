@@ -34,9 +34,9 @@ export default async function login(req, res) {
       token: loggedUsers.rows[0].token,
     };
 
-    res.status(202).send(userCredentials);
+    return res.status(202).send(userCredentials);
   } catch (error) {
-    res
+    return res
       .status(500)
       .send({ message: 'Ocorreu um erro inesperado, tente mais tarde.' });
   }
