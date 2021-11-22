@@ -28,8 +28,6 @@ export default async function newplan(req, res) {
       return res.status(401).send({ message: 'Acesso não autorizado.' });
     }
 
-    console.log(invalidRequest);
-
     if (invalidRequest) {
       return res.status(400).send({ message: invalidRequest.message });
     }
