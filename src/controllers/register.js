@@ -36,7 +36,7 @@ export default async function register(req, res) {
     return res.status(201).send({ message: 'Você é grato!' });
   } catch (error) {
     return res.status(500).send({
-      message: 'Ocoreru um erro inesperado, por favor tente mais tarde',
+      message: 'Ocorreu um erro inesperado, por favor tente mais tarde',
     });
   }
 }

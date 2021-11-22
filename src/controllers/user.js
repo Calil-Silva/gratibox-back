@@ -1,4 +1,5 @@
 import connection from '../database/database.js';
+import userCredentials from '../factories/userCredentials.js';
 
 export default async function user(req, res) {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -15,7 +16,11 @@ export default async function user(req, res) {
       });
     }
 
-    return res.sendStatus(200);
+    const subscription = await userCredentials(findLoggedUsers.rows[0].user_id);
+
+    if (!subscription) return res.sendStatus(204);
+
+    return res.status(200).send(subscription);
   } catch (error) {
     return res
       .status(500)

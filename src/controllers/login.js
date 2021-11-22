@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import connection from '../database/database.js';
+import userCredentials from '../factories/userCredentials.js';
 
 export default async function login(req, res) {
   const { email, password } = req.body;
@@ -28,13 +29,24 @@ export default async function login(req, res) {
       [userId, uuid()]
     );
 
-    const userCredentials = {
+    const subscriptionIds = await connection.query(
+      'SELECT * FROM aux WHERE user_id = $1;',
+      [userId]
+    );
+
+    const userHasPlan = subscriptionIds.rowCount > 0;
+
+    const credentials = {
       userId: findRegisteredUser.rows[0].id,
       name: findRegisteredUser.rows[0].name,
       token: loggedUsers.rows[0].token,
     };
 
-    return res.status(202).send(userCredentials);
+    if (userHasPlan) {
+      credentials.subscription = await userCredentials(userId);
+    }
+
+    return res.status(202).send(credentials);
   } catch (error) {
     return res
       .status(500)
