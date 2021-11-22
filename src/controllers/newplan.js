@@ -2,14 +2,16 @@ import connection from '../database/database.js';
 import { purchaseSchema } from '../schemas/purchaseSchema.js';
 
 export default async function newplan(req, res) {
-  // plano, data, produtos, endereço
   const {
     plan, deliveryDate, products, adress
   } = req.body;
+
   const token = req.headers.authorization?.replace('Bearer ', '');
+
   const {
     street, zipCode, city, state
   } = adress;
+
   const handleFullAdress = `${street}, ${city}/${state} - ${zipCode}`;
 
   const { error: invalidRequest } = purchaseSchema.validate(req.body, {
