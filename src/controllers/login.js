@@ -28,6 +28,26 @@ export default async function login(req, res) {
       [userId, uuid()]
     );
 
+    // const subscriptionIds = await connection.query(
+    //   'SELECT * FROM aux WHERE user_id = $1;',
+    //   [userId]
+    // );
+
+    // const subscriptionProductsIdsArr = subscriptionIds.rows.map(
+    //   (p) => p.product_id
+    // );
+
+    // const subscriptionProducts = (
+    //   await connection.query('SELECT name FROM products WHERE id = ANY ($1);', [
+    //     subscriptionProductsIdsArr,
+    //   ])
+    // ).rows.map(({ name }) => name);
+
+    // const subscriptionPlan = await connection.query(
+    //   'SELECT name FROM plans WHERE id = $1;',
+    //   [subscriptionIds.rows[0].plan_id]
+    // );
+
     const userCredentials = {
       userId: findRegisteredUser.rows[0].id,
       name: findRegisteredUser.rows[0].name,
