@@ -13,7 +13,7 @@ import { getDate, set } from 'date-fns/index.js';
 import format from 'date-fns/format/index.js';
 import { pt } from 'date-fns/locale/index.js';
 
-export function weeklyDatesGenerator(weekday) {
+export function weeklyDatesFactory(weekday) {
   const today = new Date();
   const todayIsMonday = isMonday(today);
   const todayIsWednesday = isWednesday(today);
@@ -82,7 +82,8 @@ export function weeklyDatesGenerator(weekday) {
   return deliveryDates;
 }
 
-export function monthlyDatesGenerator(day) {
+export function monthlyDatesFactory(deliverDay) {
+  const day = deliverDay.replace('Dia ', '');
   const today = new Date();
   const todaysDay = getDate(today);
 

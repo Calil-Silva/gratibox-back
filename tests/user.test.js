@@ -89,8 +89,8 @@ describe('POST /newplan', () => {
     const token = await createSession();
     const id = (await connection.query('SELECT id FROM users;')).rows[0].id;
     await connection.query(
-      'INSERT INTO aux (user_id, plan_id, product_id, date) VALUES ($1, $2, $3, $4);',
-      [id, 1, 1, 'Quarta']
+      'INSERT INTO aux (user_id, plan_id, product_id, date, subscription_Date) VALUES ($1, $2, $3, $4, $5);',
+      [id, 1, 1, 'Quarta', new Date()]
     );
     const result = await agent
       .post('/newplan')

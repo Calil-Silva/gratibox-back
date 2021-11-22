@@ -57,8 +57,8 @@ export default async function newplan(req, res) {
 
     productsId.forEach(async (productId) => {
       await connection.query(
-        'INSERT INTO aux (user_id, plan_id, product_id, date) VALUES ($1, $2, $3, $4);',
-        [userId, planId, productId, deliveryDate]
+        'INSERT INTO aux (user_id, plan_id, product_id, date, subscription_date) VALUES ($1, $2, $3, $4, $5);',
+        [userId, planId, productId, deliveryDate, new Date()]
       );
     });
 

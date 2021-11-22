@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import connection from '../database/database.js';
+import userCredentials from '../factories/userCredentials.js';
 
 export default async function login(req, res) {
   const { email, password } = req.body;
@@ -28,33 +29,24 @@ export default async function login(req, res) {
       [userId, uuid()]
     );
 
-    // const subscriptionIds = await connection.query(
-    //   'SELECT * FROM aux WHERE user_id = $1;',
-    //   [userId]
-    // );
+    const subscriptionIds = await connection.query(
+      'SELECT * FROM aux WHERE user_id = $1;',
+      [userId]
+    );
 
-    // const subscriptionProductsIdsArr = subscriptionIds.rows.map(
-    //   (p) => p.product_id
-    // );
+    const userHasPlan = subscriptionIds.rowCount > 0;
 
-    // const subscriptionProducts = (
-    //   await connection.query('SELECT name FROM products WHERE id = ANY ($1);', [
-    //     subscriptionProductsIdsArr,
-    //   ])
-    // ).rows.map(({ name }) => name);
-
-    // const subscriptionPlan = await connection.query(
-    //   'SELECT name FROM plans WHERE id = $1;',
-    //   [subscriptionIds.rows[0].plan_id]
-    // );
-
-    const userCredentials = {
+    const credentials = {
       userId: findRegisteredUser.rows[0].id,
       name: findRegisteredUser.rows[0].name,
       token: loggedUsers.rows[0].token,
     };
 
-    return res.status(202).send(userCredentials);
+    if (userHasPlan) {
+      credentials.subscription = await userCredentials(userId);
+    }
+
+    return res.status(202).send(credentials);
   } catch (error) {
     return res
       .status(500)

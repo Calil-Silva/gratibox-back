@@ -47,6 +47,7 @@ CREATE TABLE "aux" (
 	"plan_id" integer NOT NULL,
 	"product_id" integer NOT NULL,
 	"date" varchar(255) NOT NULL,
+	"subscription_date" date NOT NULL,
 	CONSTRAINT "aux_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
