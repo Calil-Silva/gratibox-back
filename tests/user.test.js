@@ -45,19 +45,4 @@ describe('GET /user', () => {
       .set('Authorization', `Bearer ${token}`);
     expect(result.status).toEqual(204);
   });
-
-  // test('Should return status code 200 if user is authenticated and have subscription', async () => {
-  //   const token = await createSession();
-  //   const id = (await connection.query('SELECT id FROM users;')).rows[0].id;
-
-  //   await connection.query(
-  //     'INSERT INTO aux (user_id, plan_id, product_id, date, subscription_Date) VALUES ($1, $2, $3, $4, $5);',
-  //     [id, 1, 1, 'Quarta', new Date()]
-  //   );
-
-  //   const result = await agent
-  //     .get('/user')
-  //     .set('Authorization', `Bearer ${token}`);
-  //   expect(result.status).toEqual(200);
-  // });
 });
