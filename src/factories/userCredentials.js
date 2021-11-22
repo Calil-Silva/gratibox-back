@@ -9,7 +9,9 @@ export default async function userCredentials(userId) {
     [userId]
   );
 
-  const subscriptionDate = subscriptionIds?.rows[0]?.subscription_date;
+  if (subscriptionIds.rowCount === 0) return false;
+
+  const subscriptionDate = subscriptionIds.rows[0].subscription_date;
 
   const subscriptionProductsIdsArr = subscriptionIds.rows.map(
     (p) => p.product_id
