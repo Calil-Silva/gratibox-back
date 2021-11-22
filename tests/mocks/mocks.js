@@ -17,3 +17,27 @@ export const mockedUser = {
     return bcrypt.hashSync(this.password, 10);
   },
 };
+
+export const mockedSubscription = {
+  plan: 'Semanal',
+  deliveryDate: 'Segunda',
+  products: ['Chás', 'Incensos'],
+  adress: {
+    street: 'rua 1',
+    zipCode: '11040-111',
+    city: 'Santos',
+    state: 'SP',
+  },
+};
+
+export const mockedSubscriptionFakeZipCode = {
+  plan: 'Semanal',
+  deliveryDate: 'Segunda',
+  products: ['Chás'],
+  adress: {
+    street: 'rua 1',
+    zipCode: '11040-11a',
+    city: 'Santos',
+    state: 'SP',
+  },
+};
